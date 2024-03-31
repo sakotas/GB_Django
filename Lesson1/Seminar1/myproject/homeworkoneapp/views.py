@@ -28,7 +28,7 @@ def index(request):
     </body>
     </html>
     """
-    logger.info('Index: Page accessed')
+    logger.info("Index: Page accessed")
     return HttpResponse(html)
 
 
@@ -52,5 +52,5 @@ def about(request):
     </body>
     </html>
     """
-    logger.info('About: Page accessed')
+    logger.info("About: Page accessed")
     return HttpResponse(html)

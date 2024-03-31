@@ -18,9 +18,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from .views import index
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("game/", include("gameapp.urls")),
-    path("homework/", include("homeworkoneapp.urls")),
-    path("blog/", include("blogapp.urls")),
+    path("", index, name="index"),
+    path("marketplace/", include("marketplaceapp.urls")),
 ]

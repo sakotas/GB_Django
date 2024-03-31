@@ -15,19 +15,18 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-as!8w!fj!x=_112lon*tt)qr&a)7(=gnr=n1_dxse%zfap%%%7"
+SECRET_KEY = "django-insecure-kc$5o^zinf^7336)1m@kdy0m+#35nh&ev3z7%+1im&!r9(&2^&"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "192.168.1.8",
-]
+ALLOWED_HOSTS = []
+
 
 # Application definition
 
@@ -38,11 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "myapp",
-    "gameapp",
-    "homeworkoneapp",
-    "Lection2app",
-    "blogapp",
+    "marketplaceapp",
 ]
 
 MIDDLEWARE = [
@@ -75,6 +70,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "myproject.wsgi.application"
 
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -84,6 +80,7 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -103,6 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -114,6 +112,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
@@ -123,48 +122,3 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            "format": "{levelname} {asctime} {module} {process} {thread} {message}",
-            "style": "{",
-        },
-        "simple": {"format": "%(levelname)s %(message)s"},
-    },
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "formatter": "verbose",
-        },
-        "djangofile": {
-            "class": "logging.FileHandler",
-            "filename": "./logs/django.log",
-            "formatter": "verbose",
-        },
-        "homeworkfile": {
-            "class": "logging.FileHandler",
-            "filename": "./logs/homework.log",
-            "formatter": "simple",
-        },
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["console", "djangofile"],
-            "level": "INFO",
-        },
-        "gameapp": {
-            "handlers": [
-                "console",
-            ],
-            "level": "DEBUG",
-            "propagate": True,
-        },
-        "homeworkoneapp": {
-            "handlers": ["console", "homeworkfile"],
-            "level": "INFO",
-        },
-    },
-}
