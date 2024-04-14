@@ -3,7 +3,34 @@
 Позволяет получить список товаров, заказанных за последние 7, 30 и 365 дней.
 
 #### Примеры URL-маршрутов
+- `/orders/`: Просмотр товаров по клиенту по умолчанию (`client_id` = 1).
 - `/orders/<int:client_id>/`: Просмотр товаров по клиенту с возможностью указания ID клиента в URL.
+
+### Создание "dummy" данных
+
+Для создания примерных данных, можно использовать Django shell для добавления данных в базу:
+
+1. **Запустите Django shell:**
+   ```bash
+   python manage.py shell
+   ```
+
+Вводим следующие команды для создания данных:
+```bash
+from marketplaceapp.models import Client, Product, Order
+client = Client(name="John Doe", email="john@example.com", phone="1234567890", address="123 Main St")
+client.save()
+product1 = Product(item_name="Product 1", description="A great product", price=19.99, quantity=10)
+product1.save()
+product2 = Product(item_name="Product 2", description="Another great product", price=29.99, quantity=5)
+product2.save()
+order = Order(client=client, total_sum=0.00)
+order.save()
+order.products.add(product1, product2)
+order.update_total_sum()  
+```
+Эти команды создадут клиента, два товара и заказ, связывая их между собой.
+
 
 
 ### Домашнее задание 2
