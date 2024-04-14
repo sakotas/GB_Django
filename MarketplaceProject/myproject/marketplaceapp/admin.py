@@ -3,7 +3,7 @@ from .models import Client, Product, Order
 
 
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'phone', 'address', 'registered_on']
+    list_display = ['id', 'name', 'email', 'phone', 'address', 'registered_on']
     search_fields = ['name', 'email', 'phone']
 
 
