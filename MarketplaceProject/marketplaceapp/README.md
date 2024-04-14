@@ -1,3 +1,75 @@
+### Домашнее задание 4
+### Расширение модели `Product` и загрузка изображений
+
+#### Изменение модели
+Модель `Product` была расширена для включения поля `image`, которое позволяет хранить изображения товаров.
+
+```python
+class Product(models.Model):
+    item_name = models.CharField(max_length=100)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.IntegerField()
+    date_added = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='product_images/', blank=True, null=True)
+```
+#### Создание формы для загрузки изображений
+Для управления загрузкой изображений была создана форма `ProductForm` на основе модели `Product`.
+
+```python
+from django import forms
+from .models import Product
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['item_name', 'description', 'price', 'quantity', 'image']
+```
+
+#### Представление для обработки формы
+Форма обрабатывается в представлении `add_product`, которое сохраняет данные формы и изображение в базу данных.
+
+```python
+from django.shortcuts import render, redirect
+from .forms import ProductForm
+
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('product_list')  # Убедитесь, что URL-адрес существует
+    else:
+        form = ProductForm()
+    return render(request, 'add_product.html', {'form': form})
+```
+
+#### Шаблон для формы
+Шаблон `add_product.html` используется для отображения формы на веб-странице.
+
+```html
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add Product</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Product</button>
+</form>
+{% endblock %}
+```
+
+#### Настройка медиа-файлов
+Убедитесь, что в настройках проекта (`settings.py`) корректно настроены `MEDIA_ROOT` и `MEDIA_URL` для обслуживания медиа-файлов.
+
+```python
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+```
+
+Эти изменения позволяют загружать и хранить изображения товаров, что расширяет функциональность приложения.
+
 ### Домашнее задание 3
 ### Фильтрация товаров по дате заказа
 Позволяет получить список товаров, заказанных за последние 7, 30 и 365 дней.

@@ -5,6 +5,8 @@ from django.shortcuts import render, get_object_or_404
 from .models import Client, Product, Order
 from django.utils import timezone
 from datetime import timedelta
+from django.shortcuts import render, redirect
+from .forms import ProductForm
 
 
 def index(request):
@@ -63,3 +65,19 @@ def order_by_date(request, client_id=1):
         "products_last_year": get_products(client_id, 365),
     }
     return render(request, "orders/order_by_date.html", context)
+
+
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('product_list')  # Предполагаем, что есть такой URL
+    else:
+        form = ProductForm()
+    return render(request, 'add_product.html', {'form': form})
+
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, 'products/product_list.html', {'products': products})
+
