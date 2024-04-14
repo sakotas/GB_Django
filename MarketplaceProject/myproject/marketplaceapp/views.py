@@ -1,10 +1,14 @@
 from django.http import HttpResponse
 from .models import Client
+from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from .models import Client, Product, Order
+from django.utils import timezone
+from datetime import timedelta
 
 
-# Create your views here.
 def index(request):
-    return HttpResponse("Welcome to Marketplace App")
+    return render(request, "base.html")
 
 
 def create_client(request):
@@ -38,3 +42,24 @@ def delete_client(request, id):
     if client is not None:
         client.delete()
     return HttpResponse(f"Client {client.name} deleted")
+
+
+def get_products(client_id, days):
+    date_threshold = timezone.now() - timedelta(days=days)
+    client = get_object_or_404(Client, id=client_id)
+    orders = Order.objects.filter(client=client, date_ordered__gte=date_threshold)
+    products = set()
+    for order in orders:
+        for product in order.products.all():
+            products.add(product)
+    return products
+
+
+def order_by_date(request, client_id=1):
+    context = {
+        "client_id": client_id,
+        "products_last_week": get_products(client_id, 7),
+        "products_last_month": get_products(client_id, 30),
+        "products_last_year": get_products(client_id, 365),
+    }
+    return render(request, "orders/order_by_date.html", context)
