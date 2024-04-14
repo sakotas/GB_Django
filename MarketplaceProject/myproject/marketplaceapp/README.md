@@ -1,3 +1,45 @@
+### Домашнее задание 5
+### Задание
+Настройте под свои нужды вывод информации о клиентах, товарах и заказах на страницах вывода информации об объекте и вывода списка объектов.
+### Изменения в файле `admin.py`
+
+Для каждой из моделей `Client`, `Product`, и `Order` создаются специализированные классы администратора, которые позволяют настроить отображение списка, поиск и фильтрацию.
+
+#### Пример кода
+
+1. **Импорты и регистрация моделей**:
+   ```python
+   from django.contrib import admin
+   from .models import Client, Product, Order
+   class ClientAdmin(admin.ModelAdmin):
+       list_display = ['name', 'email', 'phone', 'address', 'registered_on']
+       search_fields = ['name', 'email', 'phone']
+   
+   admin.site.register(Client, ClientAdmin)
+   
+   class ProductAdmin(admin.ModelAdmin):
+       list_display = ['item_name', 'description', 'price', 'quantity', 'date_added']
+       list_filter = ['date_added', 'price']
+       search_fields = ['item_name']
+   
+   admin.site.register(Product, ProductAdmin)
+   
+   class OrderAdmin(admin.ModelAdmin):
+       list_display = ['client', 'total_sum', 'date_ordered']
+       list_filter = ['date_ordered']
+       search_fields = ['client__name', 'client__email']
+   
+   admin.site.register(Order, OrderAdmin)
+   ```
+Параметры настройки:
+
+`list_display`: Указывает поля, которые будут отображаться в списке объектов.
+
+`list_filter`: Позволяет добавлять фильтры для удобной сортировки данных по указанным полям.
+
+`search_fields`: Добавляет возможность поиска по указанным полям.
+
+
 ### Домашнее задание 4
 ### Расширение модели `Product` и загрузка изображений
 
